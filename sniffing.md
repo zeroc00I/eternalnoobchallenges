@@ -5,16 +5,26 @@
 3. Se alterarmos o texto, inclusive com tags html, vemos que ela é refletida na página:
 [https://bountyleaks.cf/challenge/sniffing.php?message=<button>Teste</teste>](https://bountyleaks.cf/challenge/sniffing.php?message=&lt;button&gt;Teste&lt;/teste&gt;)
 4. Mas, se tentarmos triggar um XSS com ```<script>alert(document.domain)</script>``` o alerta não é triggado. Por quê?
-4.1 Para entender essa questão, acesse https://bountyleaks.cf/challenge/sniffing.php?message=<script>alert(document.domain)</script> e abra o console do navegador, apertando ctrl + shit + i e clicando na aba console
+
+4.1 Para entender essa questão, acesse [https://bountyleaks.cf/challenge/sniffing.php?message=<script>alert(document.domain)</script>](https://bountyleaks.cf/challenge/sniffing.php?message=%3Cscript%3Ealert%28document.domain%29%3C%2Fscript%3E) e abra o console do navegador, apertando ctrl + shit + i e clicando na aba console
+
 4.2 Observe o erro retornado pelo navegador devido à tentativa de execução de script nessa página:
+```
 Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'self' sha256-Cn8Hzq+wmgPb5X2xqCqolSgXTEGPQNOsUufW22rF2Pg='". Either the 'unsafe-inline' keyword, a hash ('sha256-X6WoVv8sUlFXk0r+MI/R+p2PsbD1k74Z+jLIpYAjIgE='), or a nonce 'nonce-...') is required to enable inline execution.
+```
+
 4.3 O erro relata que o script não foi possível executar devido à política CSP vigente nessa aplicação.
 O que faz sentido, pois ao vermos o código fonte da página, vemos o CSP declarado começando assim:
-<meta http-equiv="Content-Security-Policy" content="base-uri 'self'; default-src 'self'; script-src 'self'
+```
+<meta http-equiv="Content-Security-Policy" content="base-uri 'self'; default-src 'self'; script-src 'self'>
+```
+
 4.4 Repare que na parte de scripts, somente existe o valor 'self', ou seja, caso formos inserir qualquer <script src='url'> a url obrigatoriamente precisa ter a mesma origem do site acessado, devido ao parâmetro "self" (portanto bountyleaks.cf)
+
 4.5 Outra observação interessante é que não existe o valor unsafe-inline, desse forma qualquer xss inline não será executado pois não foi de forma descrita liberado.
-XSS como <script>alert(1)</script>, <img src=x onerror=alert()> não serão executados, exibindo erro de CSP no console tambem.
-5. Sabemos então, que com o atual contexto, não conseguiremos triggar um xss usando o parâmetro message  (https://bountyleaks.cf/challenge/sniffing.php?message=)
+XSS como ```<script>alert(1)</script>```, ```<img src=x onerror=alert()>``` não serão executados, exibindo erro de CSP no console tambem.
+
+  5. Sabemos então, que com o atual contexto, não conseguiremos triggar um xss usando o parâmetro message  (https://bountyleaks.cf/challenge/sniffing.php?message=)
 6. Olhando mais o site, vemos que um script é importado de uma outra página:
 <script src='/version.php'></script>
 7. Você entende agora por que esse script não é bloqueado pelo CSP? Pois ele atende ao requisito do CSP, uma vez que se encaixa no contexto 'self', sendo de mesma origem, pois seu endereço é https://bountyleaks.cf/challenge/version.php
