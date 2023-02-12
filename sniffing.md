@@ -26,26 +26,26 @@ XSS como ```<script>alert(1)</script>```, ```<img src=x onerror=alert()>``` não
 
   5. Sabemos então, que com o atual contexto, não conseguiremos triggar um xss usando o parâmetro message  (https://bountyleaks.cf/challenge/sniffing.php?message=)
 6. Olhando mais o site, vemos que um script é importado de uma outra página:
-<script src='/version.php'></script>
-7. Você entende agora por que esse script não é bloqueado pelo CSP? Pois ele atende ao requisito do CSP, uma vez que se encaixa no contexto 'self', sendo de mesma origem, pois seu endereço é https://bountyleaks.cf/challenge/version.php
+```<script src='/version.php'></script>```
+7. Você entende agora por que esse script não é bloqueado pelo CSP? Pois ele atende ao requisito do CSP, uma vez que se encaixa no contexto 'self', sendo de mesma origem, pois seu endereço é [https://bountyleaks.cf/challenge/version.php](https://bountyleaks.cf/challenge/version.php)
 8. Ao abrirmos a página version.php vimos a principio um JS.
-9.  Caso façamos um fuzzing de parametros nessa página (https://bountyleaks.cf/challenge/version.php?FUZZ=teste, descobrimos que existe um parametro que reflete na página: version
-10. Portanto, https://bountyleaks.cf/challenge/version.php?version=<script>alert(1337)</script>, refletirá na página o payload
+9.  Caso façamos um fuzzing de parametros nessa página (https://bountyleaks.cf/challenge/version.php?FUZZ=teste), descobrimos que existe um parametro que reflete na página: version
+10. Portanto, [https://bountyleaks.cf/challenge/version.php?version=<script>alert(1337)</script>](https://bountyleaks.cf/challenge/version.php?version=<script>alert(1337)</script>), refletirá na página o payload
 11. Pronto, achamos um XSS nessa página? Hm, também não. Por quê? Por que a página se você ver a resposta da página, verá que ela possui content-type application/json. Dessa forma, o conteúdo da página não está sendo tratado como um javascript, ou como html. O navegador não irá renderizar tags a fim de criar um alerta.
 12. Agora chega o momento que devemos pensar que :
 - Temos a página sniffing com o parametro message sendo refletido, podendo injetar html, mas o CSP exige que a tag script tenha mesma origem no parametro src
 - Temos uma página (de mesma origem) que reflete o conteudo de um parâmetro, mas seu content-type é application/json
 13. Dessa forma, podemos incluir a segunda página na primeira (embedding), usando a tag <script>.
 13.1 Vamos primeiro fazer uma modificação na segunda página para vocês verem que será refletida na primeira:
-https://bountyleaks.cf/challenge/version.php?version=123%27,%27teste%27:%271
+```https://bountyleaks.cf/challenge/version.php?version=123%27,%27teste%27:%271```
 
 Veja que criamos uma nova chave e valor no JSON da página, chamado teste
 
 13.2 Agora, vamos incluir essa URL na primeira página, ficando assim:
-https://bountyleaks.cf/challenge/sniffing.php?message=<script%20src=%27https://bountyleaks.cf/challenge/version.php?version=123%2527,%2527teste%2527:%25271337%27></script><!--
+```https://bountyleaks.cf/challenge/sniffing.php?message=<script%20src=%27https://bountyleaks.cf/challenge/version.php?version=123%2527,%2527teste%2527:%25271337%27></script><!--```
 
 - Nesta URL fizemos algumas modificações:
-alteramos a aspas simples (%27) para double encoding (%2527), não para bypassar algo, mas se você visse no código fonte, veria que caso não o fizessemos, quebraria a estrutura da pagina
+Alteramos a aspas simples (%27) para double encoding (%2527), não para bypassar algo, mas se você visse no código fonte, veria que caso não o fizessemos, quebraria a estrutura da pagina
 - A fim de demonstrar o cenário refletido, acrescemos um <!-- ao final, o que comentará todo o resto da página (desabilitando suas execuções posteriores). A explicação é que estamos incluindo a página /version.php dentro de um script, com argumentos nossos.
 Mas logo a baixo, existe um outro <script src='version.php'> (nativo da página). Isto sobrescreveria nossos valores, e no momento quero mostrar para vocês que os valores estão refletindo, antes de triggar o XSS.
 
@@ -55,11 +55,15 @@ Veja que o valor 1337 é retornado
 
 14. Sabendo que a chave pra resolver o desafio é manipular a segunda página para quando for processada pela primeira em formado de Javascript, vamos criar a segunda URL dessa forma:
 
+```
 https://bountyleaks.cf/challenge/version.php?version=123%27};alert(document.domain)//
+```
 
 E incluiremos na primeira página, ficando dessa forma:
 
+```
 https://bountyleaks.cf/challenge/sniffing.php?message=<script%20src=%27https://bountyleaks.cf/challenge/version.php?version=123%2527};alert(document.domain)//%27></script>
+```
 
 15. Desafio resolvido \o/
 
