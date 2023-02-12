@@ -25,6 +25,7 @@ Provavelmente a aplicação detecta qual o idioma do navegador do usuário ou ac
 3.1 Verificar que existem duas variáveis JS (lang e message) e verificar se via querystring elas são refletidas na página (?lang=teste e ?message=teste)
 
 3.2 Utilizar algum fuzzer (ffuf, x8, dalfox, arjun) para usar um arquivo / lista cheio de parâmetros e ver qual pode estar refletindo na página: comando -url https://bountyleaks.cf/challenge/dom.php?FUZZAQUI=teste
+
 4. Fazendo algum destes modos supracitados, chegamos a conclusão que acessando: https://bountyleaks.cf/challenge/dom.php?lang=123, faz com que o trecho de código da página vire:
 ```
 // Its not used anymore
@@ -57,6 +58,7 @@ if(lang == "en-US"){
  return message;
 }
 ```
+
 6.5 Conseguimos! Saímos do escopo da função JS, mas o JS não irá triggar, devido a um erro de sintaxe:
 Não estamos mais dentro de uma função e existe linhas falando "return". O valor vai ser retornado pra onde? Não existe função englobando ela para esse retorno ficar explícito.
 Esse erro inclusive será alertado em seu console do navegador. Qualquer erro de sintaxe JS dos sites voltam nele.
