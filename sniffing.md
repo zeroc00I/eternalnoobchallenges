@@ -17,7 +17,7 @@ XSS como <script>alert(1)</script>, <img src=x onerror=alert()> não serão exec
 5. Sabemos então, que com o atual contexto, não conseguiremos triggar um xss usando o parâmetro message  (https://bountyleaks.cf/challenge/sniffing.php?message=)
 6. Olhando mais o site, vemos que um script é importado de uma outra página:
 <script src='/version.php'></script>
-7. Você entende agora por que esse script não é bloqueado pelo CSP? Pois ele atende ao requisito do CSP, uma vez que se encaixa no contexto 'self', sendo de mesma origem, pois seu endereço é https://bountyleaks.cf/version.php
+7. Você entende agora por que esse script não é bloqueado pelo CSP? Pois ele atende ao requisito do CSP, uma vez que se encaixa no contexto 'self', sendo de mesma origem, pois seu endereço é https://bountyleaks.cf/challenge/version.php
 8. Ao abrirmos a página version.php vimos a principio um JS.
 9.  Caso façamos um fuzzing de parametros nessa página (https://bountyleaks.cf/challenge/version.php?FUZZ=teste, descobrimos que existe um parametro que reflete na página: version
 10. Portanto, https://bountyleaks.cf/challenge/version.php?version=<script>alert(1337)</script>, refletirá na página o payload
