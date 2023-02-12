@@ -68,9 +68,9 @@ E incluiremos na primeira página, ficando dessa forma:
 https://bountyleaks.cf/challenge/sniffing.php?message=<script%20src=%27https://bountyleaks.cf/challenge/version.php?version=123%2527};alert(document.domain)//%27></script>
 ```
 
-15. Desafio resolvido \o/
+## Desafio resolvido \o/
 
 Você acaba de bypassar duas convicções dos desenvolvedores:
 
-que o CSP da primeira página por ser de mesma origem é seguro e que usando o content-type application/json nunca abre margem para um xss (aqui usamos uma tecnica chamada content sniffing ou mime sniffing)
-
+1- o CSP da primeira página por ser de mesma origem é seguro
+2- Usando o content-type application/json nunca abre margem para um xss (aqui usamos uma tecnica chamada content sniffing ou mime sniffing)
