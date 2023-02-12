@@ -73,4 +73,4 @@ https://bountyleaks.cf/challenge/sniffing.php?message=<script%20src=%27https://b
 Você acaba de bypassar duas convicções dos desenvolvedores:
 
 1. o CSP da primeira página por ser de mesma origem é seguro
-2. Usando o content-type application/json nunca abre margem para um xss (aqui usamos uma tecnica chamada content sniffing ou mime sniffing)
+2. Usar o content-type application/json nunca abre margem para um XSS (aqui usamos uma tecnica chamada content sniffing ou mime sniffing)
