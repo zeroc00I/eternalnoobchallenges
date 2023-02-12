@@ -44,7 +44,7 @@ Ao acessá-la, o parâmetro "var lang" volta para seu valor padrão: "en-US"
 
 6.2 Precisaremos, então, sair do contexto dessa função que não é chamada, para que nosso XSS seja executado assim que o usuário entrar na página
 
-6.3 Para isso, precisamos fechar aquela chave da função display_message () "{", com uma chave fechando esse bloco de código: "}"
+6.3 Para isso, precisamos fechar aquela chave da função ```display_message () "{"```, com uma chave fechando esse bloco de código: "}"
 
 6.4 Caso acessássemos a URL: https://bountyleaks.cf/challenge/dom.php?lang=";%0a}%0aalert(123);// 
 Considerando %0a para \n (quebra de linha), ficando o trecho de código do nosso site agora:
@@ -63,12 +63,15 @@ if(lang == "en-US"){
 ```
 
 6.5 Conseguimos! Saímos do escopo da função JS, mas o JS não irá triggar, devido a um erro de sintaxe:
+
 Não estamos mais dentro de uma função e existe linhas falando "return". O valor vai ser retornado pra onde? Não existe função englobando ela para esse retorno ficar explícito.
+
 Esse erro inclusive será alertado em seu console do navegador. Qualquer erro de sintaxe JS dos sites voltam nele.
 
 6.6 Vamos então criar uma outra função, fingindo que existe uma outra função logo após, englobando esses returns, então:
 https://bountyleaks.cf/challenge/dom.php?lang=%22;%0a}%0aalert(document.domain);%0afunction%20nuncaserachamada(){//
 Ficando nosso código:
+
 ```
 function display_message(){
  var lang = "";
