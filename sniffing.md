@@ -56,7 +56,7 @@ Veja que o valor 1337 é retornado
 
 13.4 Conseguimos incluir um script arbitrário! Agora só falta modificá-lo para ser um xss!
 
-14. Sabendo que a chave pra resolver o desafio é manipular a segunda página para quando for processada pela primeira em formado de Javascript, vamos criar a segunda URL dessa forma:
+14. Sabendo que a chave pra resolver o desafio é manipular a segunda página para quando for processada pela primeira em formato de Javascript, vamos criar a segunda URL dessa forma:
 
 ```
 https://bountyleaks.cf/challenge/version.php?version=123%27};alert(document.domain)//
