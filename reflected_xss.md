@@ -1,4 +1,4 @@
-Resolução do Desafio "DOM" XSS Reflected - https://bountyleaks.cf/challenge/dom.php
+Resolução do Desafio XSS Reflected - https://bountyleaks.cf/challenge/reflected.php
 
 1.  Ao acessarmos a página, vemos um trecho de código em JS
 ```
@@ -24,9 +24,9 @@ Provavelmente a aplicação detecta qual o idioma do navegador do usuário ou ac
 
 3.1 Verificar que existem duas variáveis JS (lang e message) e verificar se via querystring elas são refletidas na página (?lang=teste e ?message=teste)
 
-3.2 Utilizar algum fuzzer (ffuf, x8, dalfox, arjun) para usar um arquivo / lista cheio de parâmetros e ver qual pode estar refletindo na página: comando -url https://bountyleaks.cf/challenge/dom.php?FUZZAQUI=teste
+3.2 Utilizar algum fuzzer (ffuf, x8, dalfox, arjun) para usar um arquivo / lista cheio de parâmetros e ver qual pode estar refletindo na página: comando -url https://bountyleaks.cf/challenge/reflected.php?FUZZAQUI=teste
 
-4. Fazendo algum destes modos supracitados, chegamos a conclusão que acessando: https://bountyleaks.cf/challenge/dom.php?lang=123, faz com que o trecho de código da página vire:
+4. Fazendo algum destes modos supracitados, chegamos a conclusão que acessando: https://bountyleaks.cf/challenge/reflected.php?lang=123, faz com que o trecho de código da página vire:
 ```
 // Its not used anymore
 function display_message(){
@@ -34,7 +34,7 @@ function display_message(){
 ```
 Dessa forma o valor informado pelo usuário via URL está refletindo na página (dando margem para injeção de códigos)
 
-5. Como já estamos dentro de um contexto JS (dentro das tags script), não é preciso que a gente reabra essas tags para executar um javascript, mas mesmo assim, podemos confirmar que a aplicação não permite tags como < e > : ```https://bountyleaks.cf/challenge/dom.php?lang=123<```
+5. Como já estamos dentro de um contexto JS (dentro das tags script), não é preciso que a gente reabra essas tags para executar um javascript, mas mesmo assim, podemos confirmar que a aplicação não permite tags como < e > : ```https://bountyleaks.cf/challenge/reflected.php?lang=123<```
  
 Ao acessá-la, o parâmetro "var lang" volta para seu valor padrão: "en-US"
 
@@ -46,7 +46,7 @@ Ao acessá-la, o parâmetro "var lang" volta para seu valor padrão: "en-US"
 
 6.3 Para isso, precisamos fechar aquela chave da função ```display_message () "{"```, com uma chave fechando esse bloco de código: "}"
 
-6.4 Caso acessássemos a URL: https://bountyleaks.cf/challenge/dom.php?lang=";%0a}%0aalert(123);// 
+6.4 Caso acessássemos a URL: https://bountyleaks.cf/challenge/reflected.php?lang=";%0a}%0aalert(123);// 
 Considerando %0a para \n (quebra de linha), ficando o trecho de código do nosso site agora:
 ``` 
 function display_message(){
@@ -69,7 +69,7 @@ Não estamos mais dentro de uma função e existe linhas falando "return". O val
 Esse erro inclusive será alertado em seu console do navegador. Qualquer erro de sintaxe JS dos sites voltam nele.
 
 6.6 Vamos então criar uma outra função, fingindo que existe uma outra função logo após, englobando esses returns, então:
-https://bountyleaks.cf/challenge/dom.php?lang=%22;%0a}%0aalert(document.domain);%0afunction%20nuncaserachamada(){//
+https://bountyleaks.cf/challenge/reflected.php?lang=%22;%0a}%0aalert(document.domain);%0afunction%20nuncaserachamada(){//
 Ficando nosso código:
 
 ```
