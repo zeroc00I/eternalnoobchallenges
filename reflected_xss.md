@@ -62,7 +62,7 @@ if(lang == "en-US"){
 }
 ```
 
-6.5 Conseguimos! Saímos do escopo da função JS, mas o JS não irá triggar, devido a um erro de sintaxe:
+6.5 Conseguimos! Saímos do escopo da função JS, mas o JS não irá triggar, devido a um erro de sintaxe (veja no console do navegador):
 
 Não estamos mais dentro de uma função e existe linhas falando "return". O valor vai ser retornado pra onde? Não existe função englobando ela para esse retorno ficar explícito.
 
