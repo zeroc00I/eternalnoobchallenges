@@ -37,6 +37,7 @@ XSS como ```<script>alert(1)</script>```, ```<img src=x onerror=alert()>``` não
 - Temos a página sniffing com o parametro message sendo refletido, podendo injetar html, mas o CSP exige que a tag script tenha mesma origem no parametro src
 - Temos uma página (de mesma origem) que reflete o conteudo de um parâmetro, mas seu content-type é application/json
 13. Dessa forma, podemos incluir a segunda página na primeira (embedding), usando a tag <script>.
+  
 13.1 Vamos primeiro fazer uma modificação na segunda página para vocês verem que será refletida na primeira:
 ```https://bountyleaks.cf/challenge/version.php?version=123%27,%27teste%27:%271```
 
@@ -52,6 +53,7 @@ Mas logo a baixo, existe um outro <script src='version.php'> (nativo da página)
 
 13.3 Após acessar a URL do item 13.2, abrimos o console do navegador e digitamos app.teste
 Veja que o valor 1337 é retornado
+
 13.4 Conseguimos incluir um script arbitrário! Agora só falta modificá-lo para ser um xss!
 
 14. Sabendo que a chave pra resolver o desafio é manipular a segunda página para quando for processada pela primeira em formado de Javascript, vamos criar a segunda URL dessa forma:
