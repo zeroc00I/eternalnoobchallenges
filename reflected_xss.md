@@ -19,6 +19,7 @@ document.write('<h1>Welcome hacker =)</h1>');
 2. Nesse ponto, levanta-se a suspeita que existe alguma querystring / parâmetro de URL que podemos manipular
 
 Provavelmente a aplicação detecta qual o idioma do navegador do usuário ou aceita receber isso via parâmetro (refletindo na página).
+
 3. Como não temos certeza, aqui caberiam duas abordagens:
 
 3.1 Verificar que existem duas variáveis JS (lang e message) e verificar se via querystring elas são refletidas na página (?lang=teste e ?message=teste)
