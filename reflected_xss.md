@@ -34,7 +34,8 @@ function display_message(){
 ```
 Dessa forma o valor informado pelo usuário via URL está refletindo na página (dando margem para injeção de códigos)
 
-5. Como já estamos dentro de um contexto JS (dentro das tags script), não é preciso que a gente reabra essas tags para executar um javascript, mas mesmo assim, podemos confirmar que a aplicação não permite tags como < e > : https://bountyleaks.cf/challenge/dom.php?lang=123< 
+5. Como já estamos dentro de um contexto JS (dentro das tags script), não é preciso que a gente reabra essas tags para executar um javascript, mas mesmo assim, podemos confirmar que a aplicação não permite tags como < e > : ```https://bountyleaks.cf/challenge/dom.php?lang=123<```
+ 
 Ao acessá-la, o parâmetro "var lang" volta para seu valor padrão: "en-US"
 
 6. Então para executar o XSS, vamos precisar ter um pouco de conhecimento de JS, pois é o contexto que estamos inseridos: 
