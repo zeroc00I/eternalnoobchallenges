@@ -3,7 +3,7 @@
 1. Acessamos o endereço do desafio: https://bountyleaks.cf/challenge/sniffing.php
 2. Um redirecionamento é feito para https://bountyleaks.cf/challenge/sniffing.php?message=You%20was%20successfully%20logged%20out
 3. Se alterarmos o texto, inclusive com tags html, vemos que ela é refletida na página:
-https://bountyleaks.cf/challenge/sniffing.php?message=<button>Teste</teste>
+[https://bountyleaks.cf/challenge/sniffing.php?message=<button>Teste</teste>](https://bountyleaks.cf/challenge/sniffing.php?message=&lt;button&gt;Teste&lt;/teste&gt;)
 4. Mas, se tentarmos triggar um XSS com ```<script>alert(document.domain)</script>``` o alerta não é triggado. Por quê?
 4.1 Para entender essa questão, acesse https://bountyleaks.cf/challenge/sniffing.php?message=<script>alert(document.domain)</script> e abra o console do navegador, apertando ctrl + shit + i e clicando na aba console
 4.2 Observe o erro retornado pelo navegador devido à tentativa de execução de script nessa página:
