@@ -14,7 +14,7 @@ Então você termina o desafio com algo tipo: https://bountyleaks.cf/challenge/s
 
 Tendo em vista que essa é a resposta do próximo desafio (simple_waf_2.php), recomendamos que você o tente fazer primeiramente, para somente então encontrar a resolução deste segundo em:
 
-https://bountyleaks.cf/challenge/simple_waf_2.md
+https://github.com/zeroc00I/eternalnoobchallenges/blob/main/simples_waf_2.md
 
 ## Parabéns, você conseguiu triggar o XSS na página \o/
   
