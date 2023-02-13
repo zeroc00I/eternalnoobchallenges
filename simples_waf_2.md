@@ -7,7 +7,8 @@ Chall nível 2 - https://bountyleaks.cf/challenge/simple_waf_2.php
 6. Concluímos, então, que para triggarmos o XSS, precisamos descobrir uma forma de bypassar esse bloqueio, provavelmente feito com base em tags HTML aceitas
 7. Você descobre que a aplicação não permite ```<img>``` nem permite ```<IMG>``` (é case insensitive)
 8. Você evita utilizar tags conhecidas e parte pra uma abordagem customizada:
-8.1 Tendo em vista que testamos no passo 5 a tag teste e ela passou, existem formas de criarmos um payload com essa tag:
+9. 
+10.1 Tendo em vista que testamos no passo 5 a tag teste e ela passou, existem formas de criarmos um payload com essa tag:
 - Utilizando os parametros tabindex (tipo um autofocus) e onfocus
 - Usamos tambem o # ao final da URL para chamar o elemento html com base em seu ID **(chamado URI fragment - consultar https://www.rfc-editor.org/rfc/rfc3986)**:
 
